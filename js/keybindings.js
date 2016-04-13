@@ -171,11 +171,25 @@ require.async("mousetrap", function (Mousetrap) {
 	//TODO add help docs for this
 
 	Mousetrap.bind("mod+left", function (d) {
-		getWebview(tabs.getSelected()).goBack();
+		var currentIndex = tabs.getIndex(tabs.getSelected());
+		var previousTab = tabs.getAtIndex(currentIndex - 1);
+
+		if (previousTab) {
+			switchToTab(previousTab.id);
+		} else {
+			switchToTab(tabs.getAtIndex(tabs.count() - 1).id);
+		}
 	});
 
 	Mousetrap.bind("mod+right", function (d) {
-		getWebview(tabs.getSelected()).goForward();
+		var currentIndex = tabs.getIndex(tabs.getSelected());
+		var nextTab = tabs.getAtIndex(currentIndex + 1);
+
+		if (nextTab) {
+			switchToTab(nextTab.id);
+		} else {
+			switchToTab(tabs.getAtIndex(0).id);
+		}
 	});
 
 	Mousetrap.bind(["option+mod+left", "shift+ctrl+tab"], function (d) {
